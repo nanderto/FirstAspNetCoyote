@@ -18,13 +18,18 @@ namespace FirstAspNetCoyote
         public class PongEvent : Event
         {
             public string Message;
+            public ActorId Sender;
         }
 
         private void HandlePing(Event e)
         {
             if (e is PingEvent p)
             {
-                this.SendEvent(p.Caller, new PongEvent() { Message = "Received: " + p.Message });
+                this.SendEvent(p.Caller, new PongEvent()
+                {
+                    Message = "Received: " + p.Message,
+                    Sender = this.Id
+                }); ;
             }
         }
 

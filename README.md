@@ -52,7 +52,7 @@ I am creating the runtime in the constructor then running the Execute method whi
 It is wired up the normal way as a register service. 
 ```csharp
 public class Startup
-   {
+   {+
        public Startup(IConfiguration configuration)
        {
            Configuration = configuration;
@@ -76,9 +76,9 @@ public class Startup
 It is created as a singleton so a single runtime per server. That sounds about right. If you run your application now it should run fine the runtime is created and that's about it. Right now I am assuming the container will shut down the runtime correctly, I have no idea but it makes sense.
 
 #### Coyote Actors
-Now we need some Coyote actors to interact with to prove our runtime is working and we can communicate with our actors. For this I am borrowing the PinPong sample actors from the Original Coyote Samples.
+Now we need some Coyote actors to interact with to prove our runtime is working and we can communicate with our actors. For this I am borrowing the PingPong sample actors from the Original Coyote Samples.
 
-##### RequestResponseActor an RequestEvent
+##### RequestResponseActor and RequestEvent
 ```csharp
 public class RequestEvent<TRequest, TResult> : Event
 {
@@ -130,13 +130,18 @@ public class PingPongServer : Actor
     public class PongEvent : Event
     {
         public string Message;
+        public ActorId Sender;
     }
 
     private void HandlePing(Event e)
     {
         if (e is PingEvent p)
         {
-            this.SendEvent(p.Caller, new PongEvent() { Message = "Received: " + p.Message });
+            this.SendEvent(p.Caller, new PongEvent()
+            {
+                Message = "Received: " + p.Message,
+                Sender = this.Id
+            }); ;
         }
     }
 
@@ -155,13 +160,17 @@ public class ExampleHttpServer : RequestResponseActor<string, string>
 
     public void HandlePong(Event e)
     {
-        string msg = ((PingPongServer.PongEvent)e).Message;
-        this.FinishRequest(msg);
+        if (e is PingPongServer.PongEvent pe)
+        {
+            string msg = pe.Message;
+            this.FinishRequest(msg);
+            this.SendEvent(pe.Sender, HaltEvent.Instance);
+        }
     }
 }
 ```
 Finally we need to go to the index page and update it so we can see the message being PingPonged.
-Go to the Home Controller an d make the following alterations
+Go to the Home Controller and make the following alterations
 On the constructor add the runtime to the constructor to allow it to be injected on start up.
 ##### HomeController
 ```csharp
@@ -183,7 +192,11 @@ public class HomeController : Controller
            string name = "Johnny";
            var request = new RequestEvent<string, string>(name);
            ActorId id = Runtime.CreateActor(typeof(ExampleHttpServer), request);
+           
            var response = await request.Completed.Task;
+
+           Runtime.SendEvent(id, HaltEvent.Instance);
+            
            return View("Index", response);
        }
 
@@ -199,11 +212,22 @@ public class HomeController : Controller
        }
    }
 ```
-Well almost Finnally
-We need to add the output to the screen so we can see it. Go to the Index.cshtml file and add this to the wellcome message
+Well almost finally
+We need to add the output to the screen so we can see it. Go to the Index.cshtml file and add this to the welcome message
 ```html
 <h4>@ViewData.Model</h4>
 ```
 
-Thats about it. If you set a break point in the startup file and then in the Home controller you should see the code execute throu the registration and then in the Home Controller When the welcome screen opens up you should see the message "Received: Johnny"
+That's about it. If you set a break point in the startup file and then in the Home controller you should see the code execute through the registration and then in the Home Controller When the welcome screen opens up you should see the message "Received: Johnny"
+
+#### Some Notes:
+This implementation creates series of actors (2) on each request to the page. Which means that they need to be shut down after processing the request to do this we are sending a message to them to stop. From the HomeController we can use the runtime to send a stop message to the ExampleHttpServer (which inherits from the RequestResponseActor)
+```csharp
+Runtime.SendEvent(id, HaltEvent.Instance);
+```
+In the ExampleHttpServer we can use the Actor base class of the class to send a halt message to the PingPongServer (which inherits from Actor)
+```csharp
+this.SendEvent(pe.Sender, HaltEvent.Instance);
+```
+Thanks to [@lovettchris](https://github.com/lovettchris) for pointing this out to me.
 

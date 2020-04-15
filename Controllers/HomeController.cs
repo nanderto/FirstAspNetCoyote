@@ -28,7 +28,11 @@ namespace FirstAspNetCoyote.Controllers
             string name = "Johnny";
             var request = new RequestEvent<string, string>(name);
             ActorId id = Runtime.CreateActor(typeof(ExampleHttpServer), request);
+            
             var response = await request.Completed.Task;
+
+            Runtime.SendEvent(id, HaltEvent.Instance);
+            
             return View("Index", response);
         }
 

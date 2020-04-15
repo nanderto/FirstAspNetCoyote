@@ -1,4 +1,5 @@
 ﻿using Microsoft.Coyote;
+using Microsoft.Coyote.Actors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,12 @@ namespace FirstAspNetCoyote
 
         public void HandlePong(Event e)
         {
-            string msg = ((PingPongServer.PongEvent)e).Message;
-            this.FinishRequest(msg);
+            if (e is PingPongServer.PongEvent pe)
+            {
+                string msg = pe.Message;
+                this.FinishRequest(msg);
+                this.SendEvent(pe.Sender, HaltEvent.Instance);
+            }
         }
     }
 
