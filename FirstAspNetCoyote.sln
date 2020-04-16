@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{77B4C3CB-C9F7-4AD6-83A3-438116651640}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirstAspNetCoyote", "FirstAspNetCoyote\FirstAspNetCoyote.csproj", "{26B3A434-73AF-4522-8900-7E399C41F9E3}"

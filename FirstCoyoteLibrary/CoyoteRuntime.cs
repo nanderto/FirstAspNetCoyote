@@ -29,7 +29,6 @@ namespace FirstCoyoteLibrary
             Console.WriteLine("Unhandled exception: {0}", ex.Message);
         }
 
-        [Microsoft.Coyote.SystematicTesting.Test]
         public static void Execute(IActorRuntime runtime)
         {
             Console.WriteLine("Registering Monitor");

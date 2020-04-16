@@ -221,7 +221,7 @@ We need to add the output to the screen so we can see it. Go to the Index.cshtml
 That's about it. If you set a break point in the startup file and then in the Home controller you should see the code execute through the registration and then in the Home Controller When the welcome screen opens up you should see the message "Received: Johnny"
 
 #### Some Notes:
-This implementation creates a series of actors (2) on each request to the page. Which means that they need to be shut down after processing the request. To do this we are sending a message to them to stop. From the HomeController we can use the runtime to send a stop message to the ExampleHttpServer (which inherits from the RequestResponseActor)
+1. This implementation creates a series of actors (2) on each request to the page. Which means that they need to be shut down after processing the request. To do this we are sending a message to them to stop. From the HomeController we can use the runtime to send a stop message to the ExampleHttpServer (which inherits from the RequestResponseActor)
 ```csharp
 Runtime.SendEvent(id, HaltEvent.Instance);
 ```
@@ -230,4 +230,20 @@ In the ExampleHttpServer we can use the Actor base class of the class to send a 
 this.SendEvent(pe.Sender, HaltEvent.Instance);
 ```
 Thanks to [@lovettchris](https://github.com/lovettchris) for pointing this out to me.
+
+2. Running the Coyote testing framework
+I needed to move the coyote actor code into a separate dll to get this to work. I also needed to add a test class with a test method to run as part of the test. Note the TestAttribute, there can be only one so I needed to remove that attribute from the Execute method in the CoyoteRuntime Class.
+```csharp
+[Test]
+public static async Task Execute(IActorRuntime runtime)
+{
+   var request = new RequestEvent<string, string>("Hi Mom!");
+   ActorId id = runtime.CreateActor(typeof(ExampleHttpServer), request);
+   var response = await request.Completed.Task;
+   runtime.SendEvent(id, HaltEvent.Instance);
+}
+```
+again thanks to Chris for the assistance.
+
+
 
