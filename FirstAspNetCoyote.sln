@@ -3,12 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirstAspNetCoyote", "FirstAspNetCoyote.csproj", "{229C51C3-BB50-47A3-A661-9E3A78875AA1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{77B4C3CB-C9F7-4AD6-83A3-438116651640}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirstAspNetCoyote", "FirstAspNetCoyote\FirstAspNetCoyote.csproj", "{26B3A434-73AF-4522-8900-7E399C41F9E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,10 +16,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{229C51C3-BB50-47A3-A661-9E3A78875AA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{229C51C3-BB50-47A3-A661-9E3A78875AA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{229C51C3-BB50-47A3-A661-9E3A78875AA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{229C51C3-BB50-47A3-A661-9E3A78875AA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26B3A434-73AF-4522-8900-7E399C41F9E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26B3A434-73AF-4522-8900-7E399C41F9E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26B3A434-73AF-4522-8900-7E399C41F9E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26B3A434-73AF-4522-8900-7E399C41F9E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
