@@ -1,5 +1,5 @@
 ﻿### FirstAspNetCoyote
-FirstAspNetCoyote is my first attempt at using this in an ASP.NET application. I have not been able to find any posts on this so what ever you learn here remember that it has probably been superseded by smarter people.
+FirstAspNetCoyote is my first attempt at using this in an ASP.NET application. I have not been able to find any posts on this so what ever you learn here remember that it has probably been superseded by smarter people. This implementation is based on the work of Chris Lovett found in a blog post [here](https://github.com/microsoft/coyote/wiki/Request-Response-Actors)
 
 #### Making Coyote Dependency Inject-able
 The first thing we need is to make Coyote runtime available and inject-able for that we need a class and an interface.
@@ -221,7 +221,7 @@ We need to add the output to the screen so we can see it. Go to the Index.cshtml
 That's about it. If you set a break point in the startup file and then in the Home controller you should see the code execute through the registration and then in the Home Controller When the welcome screen opens up you should see the message "Received: Johnny"
 
 #### Some Notes:
-This implementation creates series of actors (2) on each request to the page. Which means that they need to be shut down after processing the request to do this we are sending a message to them to stop. From the HomeController we can use the runtime to send a stop message to the ExampleHttpServer (which inherits from the RequestResponseActor)
+This implementation creates a series of actors (2) on each request to the page. Which means that they need to be shut down after processing the request. To do this we are sending a message to them to stop. From the HomeController we can use the runtime to send a stop message to the ExampleHttpServer (which inherits from the RequestResponseActor)
 ```csharp
 Runtime.SendEvent(id, HaltEvent.Instance);
 ```
