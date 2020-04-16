@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using FirstAspNetCoyote.Models;
 using Microsoft.Coyote.Actors;
+using FirstCoyoteLibrary;
 
 namespace FirstAspNetCoyote.Controllers
 {

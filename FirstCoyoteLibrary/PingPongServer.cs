@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FirstAspNetCoyote
+namespace FirstCoyoteLibrary
 {
     [OnEventDoAction(typeof(PingEvent), nameof(HandlePing))]
     public class PingPongServer : Actor
