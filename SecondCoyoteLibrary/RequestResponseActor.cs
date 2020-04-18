@@ -41,7 +41,6 @@ namespace SecondCoyoteLibrary
 
         protected void FinishRequest(TResult response)
         {
-            
             this.Request.Completed.SetResult(response);
         }
     }

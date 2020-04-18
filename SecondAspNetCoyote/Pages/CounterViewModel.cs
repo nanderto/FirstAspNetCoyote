@@ -42,14 +42,7 @@ namespace SecondAspNetCoyote.Pages
         public async Task IncrementCount()
         {
             var request = new RequestEvent<int, int>(IncrementAmount);
-            if (AddActor == null)
-            {
-                AddActor = runtime.CreateActor(typeof(AddActor), request);
-            }
-            else
-            {
-                runtime.SendEvent(AddActor, request);
-            }
+            AddActor = runtime.CreateActor(typeof(AddActor), request);
 
             var response = await request.Completed.Task;
 
@@ -61,14 +54,7 @@ namespace SecondAspNetCoyote.Pages
         {
             var request = new RequestEvent<int, int>(DecrementAmount);
 
-            if (SubtractActor != null)
-            {
-                SubtractActor = runtime.CreateActor(typeof(SubtractActor), request);
-            }
-            else
-            {
-                runtime.SendEvent(SubtractActor, request);
-            }
+            SubtractActor = runtime.CreateActor(typeof(SubtractActor), request);
 
             var response = await request.Completed.Task;
 
