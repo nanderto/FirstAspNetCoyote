@@ -1,0 +1,13 @@
+﻿@page "/counter"
+@using SecondCoyoteLibrary
+@inject ICounterViewModel ViewModel
+
+<h1>Counter</h1>
+
+<p>Current count: @ViewModel.CurrentCount</p>
+Amount to Increment
+<input @bind="ViewModel.IncrementAmount" />
+<button class="btn btn-primary" @onclick="async () => await ViewModel.IncrementCount()">Click me +</button> &nbsp &nbsp
+Amount to Decrement
+<input @bind="ViewModel.DecrementAmount" />
+<button class="btn btn-primary" @onclick="async () => await ViewModel.DecrementCount()">Click me -</button>
