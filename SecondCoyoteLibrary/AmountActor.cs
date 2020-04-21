@@ -31,6 +31,13 @@ namespace SecondCoyoteLibrary
         }
         private void HandleAdd(Event e)
         {
+            var random = new Random();
+            int randomNumber = random.Next(0, 1000);
+            if(randomNumber < 200)
+            {
+                throw new ApplicationException("This is a Random error with a 20% chance of happening");
+            }
+
             if (e is AddEvent ae)
             {
                 var evnt = new AmountEvent()
