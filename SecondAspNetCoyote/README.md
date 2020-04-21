@@ -135,7 +135,7 @@ public class AddActor : RequestResponseActor<int, int>
        }
    }
 ```
-Notice that I have added in the Handle add a few lines of code to randomly throw an exception. At this point YOu can run the application and watch it work. If it throws the exception it brings Blazor down but its hard to find.
+Notice that I have added in the HandleAdd a few lines of code to randomly throw an exception. At this point you can run the application and watch it work. If it throws the exception it brings Blazor down but its hard to find, as it burys the exception.
 
 ## Running the Coyote test tool
 The coyote tool did not work as advertised I had to run the dotnet command:
